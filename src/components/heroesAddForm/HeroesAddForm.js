@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { filtersFetched, filtersFetching, filtersFetchingError, heroCreated } from "../../actions";
+import { heroCreated } from "../../actions";
 import { useHttp } from "../../hooks/http.hook";
 
 import { v4 as uuidv4 } from 'uuid';
@@ -26,25 +26,15 @@ const HeroesAddForm = () => {
 
     const {filters, filtersLoadingStatus} = useSelector(state => state);
 
-    useEffect(() => {
-        dispatch(filtersFetching());
-        request('http://localhost:3001/filters')
-               .then(data => dispatch(filtersFetched(data)))
-               .catch(dispatch(filtersFetchingError()))
-    }, []);
-
     const renderFilters = (filters, status) => {
         if (status === "loading") {
             return <option>Загрузка элементов</option>
         } else if (status === "error") {
             return <option>Ошибка загрузки</option>
         }
-        
-        // Если фильтры есть, то рендерим их
+
         if (filters && filters.length > 0 ) {
             return filters.map(({name, label}) => {
-                // Один из фильтров нам тут не нужен
-                // eslint-disable-next-line
                 if (name === 'all')  return;
 
                 return <option key={name} value={name}>{label}</option>
