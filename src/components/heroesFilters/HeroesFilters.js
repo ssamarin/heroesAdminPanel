@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { activeFilterChanged } from '../heroesFilters/filtersSlice';
-import { fetchFilters } from '../../actions';
+import { fetchFilters } from './filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
