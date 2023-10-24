@@ -5,13 +5,15 @@ import classNames from 'classnames';
 
 import { activeFilterChanged } from '../heroesFilters/filtersSlice';
 import { fetchFilters } from './filtersSlice';
+import { selectAll } from './filtersSlice';
+import store from '../../store';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
-
-    const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+    const {filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
     const dispatch = useDispatch();
     const {request} = useHttp();
+    const filters = selectAll(store.getState());
 
     useEffect(() => {   
         dispatch(fetchFilters(request));

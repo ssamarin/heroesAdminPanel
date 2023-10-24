@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { heroCreated } from "../../components/heroesList/heroesSlice";
 import { useHttp } from "../../hooks/http.hook";
+import { selectAll } from "../heroesFilters/filtersSlice";
+import store from "../../store";
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,7 +16,8 @@ const HeroesAddForm = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
 
-    const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
+    const {filtersLoadingStatus} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
 
     const renderFilters = (filters, status) => {
         if (status === "loading") {
@@ -25,7 +28,7 @@ const HeroesAddForm = () => {
 
         if (filters && filters.length > 0 ) {
             return filters.map(({name, label}) => {
-                if (name === 'all')  return;
+                if (name === 'all') return;
 
                 return <option key={name} value={name}>{label}</option>
             })
